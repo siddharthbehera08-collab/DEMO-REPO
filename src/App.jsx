@@ -60,18 +60,15 @@ const Hero = () => {
       scrollTrigger: {
         trigger: ".hero-pin-wrapper",
         start: "top top",
-        end: "+=1200", // compress scroll to roughly ~150vh instead of 2000px+
+        end: "+=600", // tighten scroll to just capture the first state swap
         scrub: 1,
         pin: true
       }
     });
 
     // State 1 to State 2
-    tl.to(".state-1", { opacity: 0, scale: 0.95, duration: 1 })
-      .to(".state-2", { opacity: 1, scale: 1, display: 'flex', duration: 1 }, "-=0.5")
-      // State 2 to State 3
-      .to(".state-2", { opacity: 0, scale: 0.95, duration: 1 })
-      .to(".state-3", { opacity: 1, scale: 1, display: 'flex', duration: 1 }, "-=0.5");
+    tl.to(".state-1", { autoAlpha: 0, scale: 0.95, duration: 1 })
+      .to(".state-2", { autoAlpha: 1, scale: 1, duration: 1 }, "-=0.5");
 
   }, []);
 
@@ -83,7 +80,7 @@ const Hero = () => {
         <div className="hero-state state-1">
           <div className="hero-left">
             <LiquidBlob />
-            <img src="/proj1.jpeg" alt="Hero Subject" className="hero-image-placeholder" style={{ background: 'transparent', border: 'none', objectFit: 'cover' }} onError={(e) => { e.target.style.display = 'none'; }} />
+            <img src="/proj1.jpeg" alt="Hero Subject" style={{ width: '400px', height: 'auto', maxWidth: '100%', objectFit: 'contain', zIndex: 2, position: 'relative' }} onError={(e) => { e.target.style.display = 'none'; }} />
           </div>
           <div className="hero-right">
             <h1 className="blend-text">MIRAJ PATRA</h1>
@@ -94,16 +91,12 @@ const Hero = () => {
         </div>
 
         {/* STATE 2: Scroll Down - Mid hero */}
-        <div className="hero-state state-2" style={{ opacity: 0, display: 'none' }}>
-          <img src="/proj2.jpeg" alt="Hero 2" className="hero-image-placeholder large-format" style={{ background: 'transparent', border: 'none', objectFit: 'cover' }} onError={(e) => { e.target.style.display = 'none'; }} />
-          <h2 className="mid-hero-text">"I make things move."</h2>
+        <div className="hero-state state-2" style={{ visibility: 'hidden', opacity: 0 }}>
+          <img src="/proj2.jpeg" alt="Hero 2" style={{ width: '100vw', height: '100vh', objectFit: 'cover', position: 'absolute', top: 0, left: 0, zIndex: 0 }} onError={(e) => { e.target.style.display = 'none'; }} />
+          <h2 className="mid-hero-text" style={{ zIndex: 1, position: 'relative' }}>"I make things move."</h2>
         </div>
 
-        {/* STATE 3: Scroll Down Further - Bottom of hero */}
-        <div className="hero-state state-3" style={{ opacity: 0, display: 'none' }}>
-          <img src="/proj1.jpeg" alt="Hero 3" className="hero-image-placeholder intimate-format" style={{ background: 'transparent', border: 'none', objectFit: 'cover' }} onError={(e) => { e.target.style.display = 'none'; }} />
-          <p className="bio-snippet">Editing is storytelling in the fourth dimension.</p>
-        </div>
+
 
       </section>
     </div>
@@ -188,8 +181,8 @@ const ProjectCard = ({ title, desc, tag, image }) => {
 
 const Projects = () => {
   const projects = [
-    { title: "Brand Reel — Motion Edit", desc: "Dynamic motion graphics for social brand awareness.", tag: "After Effects", image: "/proj1.jpeg" },
-    { title: "Social Content Pack", desc: "Short-form video editing customized for engagement.", tag: "DaVinci Resolve", image: "/proj2.jpeg" }
+    { title: "Brand Reel — Motion Edit", desc: "Dynamic motion graphics for social brand awareness.", tag: "After Effects", image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=2070&auto=format&fit=crop" },
+    { title: "Social Content Pack", desc: "Short-form video editing customized for engagement.", tag: "DaVinci Resolve", image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop" }
   ];
 
   return (
@@ -302,8 +295,8 @@ function App() {
     window.addEventListener('mousemove', moveCursor);
     window.addEventListener('mouseover', handleMouseOver);
 
-    // Fade up sections on scroll
-    gsap.utils.toArray('section').forEach((sec) => {
+    // Fade up sections on scroll, excluding the hero since it runs on its own pinning timeline
+    gsap.utils.toArray('section:not(.hero)').forEach((sec) => {
       gsap.fromTo(sec,
         { autoAlpha: 0, y: 50 },
         {
