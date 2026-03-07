@@ -1,0 +1,559 @@
+/* Layout Helpers */
+.app-container {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  /* Acrylic glassmorphism */
+  background: rgba(248, 248, 248, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(54, 69, 79, 0.1);
+  transition: all 0.3s ease;
+}
+
+.header-logo {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+}
+
+.header-nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.header-nav a {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.70rem;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.header-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.header-nav a:hover::after {
+  width: 100%;
+}
+
+/* Hero Section */
+.hero-pin-wrapper {
+  /* This wrapper gets pinned by GSAP */
+  width: 100%;
+  height: 100vh;
+}
+
+.hero {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-state {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5%;
+}
+
+.hero-left {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 2;
+  position: relative;
+}
+
+/* Liquid Blob Background */
+.liquid-blob-container {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  filter: blur(40px);
+  z-index: 0;
+}
+
+.liquid-blob {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, var(--text-primary), var(--accent), #1a1a1a);
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  animation: morph 8s ease-in-out infinite alternate;
+}
+
+@keyframes morph {
+  0% {
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    transform: rotate(0deg) scale(1);
+  }
+
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: rotate(15deg) scale(1.1);
+  }
+}
+
+.hero-image-placeholder {
+  position: relative;
+  z-index: 1;
+  width: 300px;
+  height: 450px;
+  background: rgba(54, 69, 79, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  border: 1px dashed var(--text-secondary);
+}
+
+.large-format {
+  width: 100vw;
+  height: 80vh;
+  margin-top: 50px;
+}
+
+.intimate-format {
+  width: 40vw;
+  height: 60vh;
+}
+
+/* Hero Typography */
+.blend-text {
+  font-size: clamp(60px, 8vw, 116px);
+  line-height: 0.9;
+  text-transform: uppercase;
+  mix-blend-mode: difference;
+  color: #36454F;
+  /* White blends uniquely against dark backgrounds */
+  position: relative;
+  left: -15%;
+  /* Overlap the image purposefully */
+  z-index: 3;
+}
+
+.role-descriptor {
+  font-size: 1.75rem;
+  margin-top: 1rem;
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+
+.role-line,
+.location-tag {
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  color: var(--text-primary);
+}
+
+.hero-state.state-2 {
+  flex-direction: column;
+}
+
+.mid-hero-text {
+  font-size: 3.75rem;
+  position: absolute;
+  color: #36454F;
+  mix-blend-mode: difference;
+  text-align: center;
+  z-index: 5;
+}
+
+.bio-snippet {
+  font-size: 1.75rem;
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+  max-width: 400px;
+  font-family: var(--font-body);
+}
+
+/* About Section */
+.about-section {
+  min-height: 80vh;
+  display: flex;
+  padding: 8rem 5%;
+  align-items: center;
+}
+
+.about-left {
+  flex: 0.3;
+  display: flex;
+  justify-content: center;
+}
+
+.vertical-title {
+  font-size: 3.75rem;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 5px;
+  color: var(--text-primary);
+  opacity: 0.2;
+}
+
+.about-right {
+  flex: 0.7;
+  padding-left: 2rem;
+}
+
+.about-text {
+  font-size: 1.75rem;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  font-weight: 400;
+  margin-bottom: 3rem;
+}
+
+.tools-block {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.tool-badge {
+  padding: 0.5rem 1.2rem;
+  background: var(--text-primary);
+  color: var(--bg-color);
+  border-radius: 30px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.tool-badge:hover {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+/* Projects Section */
+.projects-section {
+  padding: 8rem 5%;
+}
+
+.section-title {
+  font-size: 4.75rem;
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+  perspective: 1000px;
+}
+
+.project-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 1.5rem;
+  /* Acrylic glassmorphism handled in index.css .acrylic-card */
+  transform-style: preserve-3d;
+}
+
+.project-thumbnail {
+  width: 100%;
+  height: 250px;
+  background: rgba(54, 69, 79, 0.05);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  border: 1px dashed rgba(54, 69, 79, 0.2);
+}
+
+.project-content h3 {
+  font-size: 1.55rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-content p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.project-tag {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--text-primary);
+  border-radius: 4px;
+  font-size: 0.55rem;
+}
+
+/* Glow Effect on Card Hover */
+.project-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(180, 0, 0, 0.05) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.project-card:hover .project-glow {
+  opacity: 1;
+}
+
+.project-card:hover::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--accent);
+}
+
+/* Skills Section */
+.skills-section {
+  padding: 8rem 5%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skill-name {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+}
+
+.skill-bar-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(54, 69, 79, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.skill-fill {
+  height: 100%;
+  background-color: var(--accent);
+  border-radius: 2px;
+}
+
+/* Contact Section */
+.contact-section {
+  padding: 8rem 5%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-heading {
+  font-size: clamp(2.75rem, 5vw, 5.75rem);
+  margin-bottom: 1rem;
+}
+
+.contact-sub {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-bottom: 4rem;
+}
+
+.contact-form-wrapper {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 4rem;
+  padding: 3rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(54, 69, 79, 0.2);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  transition: border-color 0.3s;
+  outline: none;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-bottom-color: var(--accent);
+}
+
+.submit-btn {
+  padding: 1rem 2rem;
+  background-color: var(--text-primary);
+  color: var(--bg-color);
+  border: none;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.email-link {
+  font-size: 1.75rem;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+.email-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.email-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 5%;
+  border-top: 1px solid rgba(54, 69, 79, 0.1);
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+
+.footer-right {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.footer-right a:hover {
+  color: var(--accent);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 5%;
+  }
+
+  .header-nav {
+    display: none;
+  }
+
+  .hero-state.state-1 {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-right {
+    align-items: center;
+  }
+
+  .blend-text {
+    left: 0;
+  }
+
+  .about-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .vertical-title {
+    writing-mode: horizontal-tb;
+    transform: none;
+    margin-bottom: 2rem;
+  }
+
+  .about-right {
+    padding-left: 0;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tools-block {
+    justify-content: center;
+  }
+}
