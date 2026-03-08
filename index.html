@@ -1,19 +1,986 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MIRAJ PATRA | Portfolio</title>
-    <link
-        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,700,500,600,300&f[]=satoshi@900,700,500,300,400&display=swap"
-        rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIRAJ PATRA | Portfolio</title>
+  <link rel="icon" type="image/svg+xml" href="./Images/vite.svg" />
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,700,500,600,300&amp;f[]=satoshi@900,700,500,300,400&amp;display=swap" rel="stylesheet">
+  <style>
+:root {
+  --bg-color: #F8F8F8;
+  --text-primary: #36454F;
+  --text-secondary: #5F6368;
+  --accent: #b40000;
+
+  --font-heading: 'Clash Display', sans-serif;
+  --font-body: 'Satoshi', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  /* The global dotted grid pattern */
+  background-image: radial-gradient(rgba(54, 69, 79, 0.12) 1.5px, transparent 1.5px);
+  background-size: 45px 45px;
+  background-attachment: fixed;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  /* Native smooth scroll for anchor links */
+  /* GSAP typically handles the custom smooth scroll, so this is native */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Custom Cursor optional glow */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  background-color: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+  transition: width 0.2s, height 0.2s;
+}
+
+/* Utility Classes */
+.acrylic-card {
+  background: rgba(248, 248, 248, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(54, 69, 79, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+/* Base styles for scroll entry */
+.fade-up {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Selection */
+::selection {
+  background: var(--text-primary);
+  color: var(--bg-color);
+}
+
+/* Layout Helpers */
+.app-container {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  /* Acrylic glassmorphism */
+  background: rgba(248, 248, 248, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(54, 69, 79, 0.1);
+  transition: all 0.3s ease;
+}
+
+.header-logo {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+}
+
+.header-nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.header-nav a {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.70rem;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.header-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.header-nav a:hover::after {
+  width: 100%;
+}
+
+/* Hero Section */
+.hero-pin-wrapper {
+  /* This wrapper gets pinned by GSAP */
+  width: 100%;
+  height: 100vh;
+}
+
+.hero {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-state {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5%;
+}
+
+.hero-left {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 2;
+  position: relative;
+}
+
+/* Liquid Blob Background */
+.liquid-blob-container {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  filter: blur(40px);
+  z-index: 0;
+}
+
+.liquid-blob {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, var(--text-primary), var(--accent), #1a1a1a);
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  animation: morph 8s ease-in-out infinite alternate;
+}
+
+@keyframes morph {
+  0% {
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    transform: rotate(0deg) scale(1);
+  }
+
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: rotate(15deg) scale(1.1);
+  }
+}
+
+.hero-image-placeholder {
+  position: relative;
+  z-index: 1;
+  width: 300px;
+  height: 450px;
+  background: rgba(54, 69, 79, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  border: 1px dashed var(--text-secondary);
+}
+
+.large-format {
+  width: 100vw;
+  height: 80vh;
+  margin-top: 50px;
+}
+
+.intimate-format {
+  width: 40vw;
+  height: 60vh;
+}
+
+/* Hero Typography */
+.blend-text {
+  font-size: clamp(60px, 8vw, 116px);
+  line-height: 0.9;
+  text-transform: uppercase;
+  mix-blend-mode: difference;
+  color: #36454F;
+  /* White blends uniquely against dark backgrounds */
+  position: relative;
+  left: -15%;
+  /* Overlap the image purposefully */
+  z-index: 3;
+}
+
+.role-descriptor {
+  font-size: 1.75rem;
+  margin-top: 1rem;
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+
+.role-line,
+.location-tag {
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  color: var(--text-primary);
+}
+
+.hero-state.state-2 {
+  flex-direction: column;
+}
+
+.mid-hero-text {
+  font-size: 3.75rem;
+  position: absolute;
+  color: #36454F;
+  mix-blend-mode: difference;
+  text-align: center;
+  z-index: 5;
+}
+
+.bio-snippet {
+  font-size: 1.75rem;
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+  max-width: 400px;
+  font-family: var(--font-body);
+}
+
+/* About Section */
+.about-section {
+  min-height: 80vh;
+  display: flex;
+  padding: 8rem 5%;
+  align-items: center;
+}
+
+.about-left {
+  flex: 0.3;
+  display: flex;
+  justify-content: center;
+}
+
+.vertical-title {
+  font-size: 3.75rem;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 5px;
+  color: var(--text-primary);
+  opacity: 0.2;
+}
+
+.about-right {
+  flex: 0.7;
+  padding-left: 2rem;
+}
+
+.about-text {
+  font-size: 1.75rem;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  font-weight: 400;
+  margin-bottom: 3rem;
+}
+
+.tools-block {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.tool-badge {
+  padding: 0.5rem 1.2rem;
+  background: var(--text-primary);
+  color: var(--bg-color);
+  border-radius: 30px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.tool-badge:hover {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+/* Projects Section */
+.projects-section {
+  padding: 8rem 5%;
+}
+
+.section-title {
+  font-size: 4.75rem;
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+  perspective: 1000px;
+}
+
+.project-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 1.5rem;
+  /* Acrylic glassmorphism handled in index.css .acrylic-card */
+  transform-style: preserve-3d;
+}
+
+.project-thumbnail {
+  width: 100%;
+  height: 250px;
+  background: rgba(54, 69, 79, 0.05);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  border: 1px dashed rgba(54, 69, 79, 0.2);
+}
+
+.project-content h3 {
+  font-size: 1.55rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-content p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.project-tag {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--text-primary);
+  border-radius: 4px;
+  font-size: 0.55rem;
+}
+
+/* Glow Effect on Card Hover */
+.project-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(180, 0, 0, 0.05) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.project-card:hover .project-glow {
+  opacity: 1;
+}
+
+.project-card:hover::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--accent);
+}
+
+/* Skills Section */
+.skills-section {
+  padding: 8rem 5%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skill-name {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+}
+
+.skill-bar-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(54, 69, 79, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.skill-fill {
+  height: 100%;
+  background-color: var(--accent);
+  border-radius: 2px;
+}
+
+/* Contact Section */
+.contact-section {
+  padding: 8rem 5%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-heading {
+  font-size: clamp(2.75rem, 5vw, 5.75rem);
+  margin-bottom: 1rem;
+}
+
+.contact-sub {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-bottom: 4rem;
+}
+
+.contact-form-wrapper {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 4rem;
+  padding: 3rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(54, 69, 79, 0.2);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  transition: border-color 0.3s;
+  outline: none;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-bottom-color: var(--accent);
+}
+
+.submit-btn {
+  padding: 1rem 2rem;
+  background-color: var(--text-primary);
+  color: var(--bg-color);
+  border: none;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.email-link {
+  font-size: 1.75rem;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+.email-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.email-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 5%;
+  border-top: 1px solid rgba(54, 69, 79, 0.1);
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+
+.footer-right {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.footer-right a:hover {
+  color: var(--accent);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 5%;
+  }
+
+  .header-nav {
+    display: none;
+  }
+
+  .hero-state.state-1 {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-right {
+    align-items: center;
+  }
+
+  .blend-text {
+    left: 0;
+  }
+
+  .about-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .vertical-title {
+    writing-mode: horizontal-tb;
+    transform: none;
+    margin-bottom: 2rem;
+  }
+
+  .about-right {
+    padding-left: 0;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tools-block {
+    justify-content: center;
+  }
+}
+  </style>
 </head>
-
 <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-</body>
+<div class="app-container">
+    <div class="custom-cursor" id="custom-cursor"></div>
 
+    <header class="header">
+        <div class="header-logo">MIRAJ PATRA</div>
+        <nav class="header-nav">
+            <a href="#hero">Hero</a>
+            <a href="#projects">Projects</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="hero-pin-wrapper">
+            <section class="hero" id="hero">
+                <!-- STATE 1: Load / Top -->
+                <div class="hero-state state-1">
+                    <div class="hero-left">
+                        <div class="liquid-blob-container">
+                            <div class="liquid-blob"></div>
+                        </div>
+                        <img src="./Images/proj1.jpeg" alt="Hero Subject"
+                            style="width: 400px; height: auto; max-width: 100%; object-fit: contain; z-index: 2; position: relative;"
+                            onerror="this.style.display='none';" />
+                    </div>
+                    <div class="hero-right">
+                        <h1 class="blend-text">MIRAJ PATRA</h1>
+                        <h2 class="role-descriptor">Creative Freak.</h2>
+                        <p class="role-line">Video Editor · Designer · Motion Graphics.</p>
+                        <div class="location-tag">India, 20 yrs.</div>
+                    </div>
+                </div>
+
+                <!-- STATE 2: Scroll Down - Mid hero -->
+                <div class="hero-state state-2" style="visibility: hidden; opacity: 0;">
+                    <img src="./Images/proj2.jpeg" alt="Hero 2"
+                        style="width: 100vw; height: 100vh; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 0;"
+                        onerror="this.style.display='none';" />
+                    <h2 class="mid-hero-text" style="z-index: 1; position: relative;">"I make things move."</h2>
+                </div>
+            </section>
+        </div>
+
+        <section class="about-section" id="about">
+            <div class="about-left">
+                <h2 class="vertical-title">ABOUT</h2>
+            </div>
+            <div class="about-right">
+                <p class="about-text">
+                    I'm Miraj Patra, a 20-year-old creative from India. I live inside timelines, keyframes, and render
+                    queues.
+                    I do video editing, motion graphics, and design — freelancing for clients who want their visuals to
+                    actually mean something.
+                </p>
+                <div class="tools-block acrylic-card">
+                    <span class="tool-badge">DaVinci Resolve Studio</span>
+                    <span class="tool-badge">After Effects</span>
+                    <span class="tool-badge">Higgsfield AI</span>
+                    <span class="tool-badge">Nanobana AI</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="projects-section" id="projects">
+            <h2 class="section-title">WORK</h2>
+            <div class="projects-grid">
+
+                <div class="project-card acrylic-card" onmousemove="handleCardMouseMove(event, this)"
+                    onmouseleave="handleCardMouseLeave(this)">
+                    <div class="project-thumbnail" style="padding: 0;">
+                        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=2070&auto=format&fit=crop"
+                            alt="Brand Reel — Motion Edit"
+                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
+                    </div>
+                    <div class="project-content">
+                        <h3>Brand Reel — Motion Edit</h3>
+                        <p>Dynamic motion graphics for social brand awareness.</p>
+                        <span class="project-tag">After Effects</span>
+                    </div>
+                    <div class="project-glow"></div>
+                </div>
+
+                <div class="project-card acrylic-card" onmousemove="handleCardMouseMove(event, this)"
+                    onmouseleave="handleCardMouseLeave(this)">
+                    <div class="project-thumbnail" style="padding: 0;">
+                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop"
+                            alt="Social Content Pack"
+                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
+                    </div>
+                    <div class="project-content">
+                        <h3>Social Content Pack</h3>
+                        <p>Short-form video editing customized for engagement.</p>
+                        <span class="project-tag">DaVinci Resolve</span>
+                    </div>
+                    <div class="project-glow"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="skills-section" id="skills">
+            <h2 class="section-title">SKILLS</h2>
+            <div class="skills-list">
+
+                <div class="skill-item">
+                    <div class="skill-name">Video Editing</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-fill" data-target-width="90%" style="width: 0;"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">Motion Graphics</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-fill" data-target-width="85%" style="width: 0;"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">Color Grading</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-fill" data-target-width="80%" style="width: 0;"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">Visual Design</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-fill" data-target-width="75%" style="width: 0;"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">After Effects</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-fill" data-target-width="95%" style="width: 0;"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">DaVinci Resolve</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-fill" data-target-width="90%" style="width: 0;"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">AI Tools</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-fill" data-target-width="80%" style="width: 0;"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">Freelancing</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-fill" data-target-width="85%" style="width: 0;"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="contact-section" id="contact">
+            <h2 class="contact-heading">LET'S MAKE SOMETHING.</h2>
+            <p class="contact-sub">Available for freelance projects. Reach out.</p>
+
+            <div class="contact-form-wrapper acrylic-card">
+                <form class="contact-form" onsubmit="event.preventDefault()">
+                    <input type="text" placeholder="Name" required />
+                    <input type="email" placeholder="Email" required />
+                    <textarea placeholder="Message" rows="4" required></textarea>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+
+            <a href="mailto:mirajpatra@gmail.com" class="email-link">mirajpatra@gmail.com</a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-left">MIRAJ PATRA</div>
+        <div class="footer-right">
+            <a href="https://www.instagram.com/mirage_2006_/" target="_blank" rel="noopener noreferrer"><i
+                    data-lucide="instagram" style="width: 20px; height: 20px;"></i></a>
+            <a href="https://www.linkedin.com/in/mirajpatra/" target="_blank" rel="noopener noreferrer"><i
+                    data-lucide="linkedin" style="width: 20px; height: 20px;"></i></a>
+            <span>© 2026</span>
+        </div>
+    </footer>
+</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script>
+// Initialize Lucide icons
+lucide.createIcons();
+
+gsap.registerPlugin(ScrollTrigger);
+
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Hero Jitter Animation
+    const heroEl = document.getElementById("hero");
+    if (heroEl) {
+        const jitterAnim = gsap.to(heroEl, {
+            x: "random(-0.3, 0.3, 0.06)",
+            y: "random(-0.3, 0.3, 0.06)",
+            rotation: "random(-0.06, 0.06)",
+            ease: "sine.inOut",
+            repeat: -1,
+            yoyo: true,
+            duration: 0.15,
+            paused: true
+        });
+
+        let jitterTimeout;
+        ScrollTrigger.create({
+            trigger: heroEl,
+            start: "top top",
+            end: "bottom top",
+            onUpdate: (self) => {
+                if (self.getVelocity() !== 0) {
+                    jitterAnim.play();
+                    clearTimeout(jitterTimeout);
+                    jitterTimeout = setTimeout(() => jitterAnim.pause(), 40);
+                }
+            }
+        });
+    }
+
+    // 2. Hero Pin/Morph Animation
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".hero-pin-wrapper",
+            start: "top top",
+            end: "+=600",
+            scrub: 1,
+            pin: true
+        }
+    });
+
+    tl.to(".state-1", { autoAlpha: 0, scale: 0.95, duration: 1 })
+        .to(".state-2", { autoAlpha: 1, scale: 1, duration: 1 }, "-=0.5");
+
+    // 3. Skills Bar Animation
+    gsap.utils.toArray('.skill-fill').forEach((bar) => {
+        ScrollTrigger.create({
+            trigger: bar,
+            start: "top 85%",
+            onEnter: () => gsap.to(bar, { width: bar.dataset.targetWidth, duration: 1.5, ease: "power3.out" }),
+            once: true
+        });
+    });
+
+    // 4. Custom Cursor
+    const cursor = document.getElementById("custom-cursor");
+    if (cursor) {
+        const moveCursor = (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        };
+
+        const handleMouseOver = (e) => {
+            if (e.target.tagName.toLowerCase() === 'a' || e.target.tagName.toLowerCase() === 'button' || e.target.closest('a') || e.target.closest('button')) {
+                gsap.to(cursor, { scale: 2, duration: 0.2 });
+            } else {
+                gsap.to(cursor, { scale: 1, duration: 0.2 });
+            }
+        };
+
+        window.addEventListener('mousemove', moveCursor);
+        window.addEventListener('mouseover', handleMouseOver);
+    }
+
+    // 5. Fade Up Sections On Scroll
+    gsap.utils.toArray('section:not(.hero)').forEach((sec) => {
+        gsap.fromTo(sec,
+            { autoAlpha: 0, y: 50 },
+            {
+                scrollTrigger: {
+                    trigger: sec,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                autoAlpha: 1,
+                y: 0,
+                duration: 1,
+                ease: "power2.out"
+            }
+        );
+    });
+});
+
+// 6. Project Card 3D Tilt Logic
+window.handleCardMouseMove = (e, card) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -10;
+    const rotateY = ((x - centerX) / centerX) * 10;
+
+    gsap.to(card, {
+        rotateX: rotateX,
+        rotateY: rotateY,
+        transformPerspective: 1000,
+        ease: "power2.out",
+        duration: 0.5
+    });
+};
+
+window.handleCardMouseLeave = (card) => {
+    gsap.to(card, {
+        rotateX: 0,
+        rotateY: 0,
+        ease: "power2.out",
+        duration: 0.5
+    });
+};
+
+  </script>
+</body>
 </html>
